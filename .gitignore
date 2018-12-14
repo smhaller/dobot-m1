@@ -1,0 +1,8 @@
+*~
+*.swp
+*.log
+*.out
+.catkin_tools
+*.orig
+*.bak
+.DS_Store

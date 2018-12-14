@@ -1,10 +1,10 @@
 <launch>
     <!-- LAUNCH INTERFACE -->
-    <arg name="gui" default="true" />
+    <arg name="gui" default="false" />
     <arg name="robot_name" default="dobby"/>
     <arg name="use_rviz" default="true"/>
     <arg name="use_joint_state_publisher" default="true"/>
-    <arg name="use_robot_sim" default="true"/>
+    <arg name="use_robot_sim" default="false"/>
     <arg name="load_moveit" default="true"/>
 
     <param name="robot_description" command="$(find xacro)/xacro --inorder $(find dobot_m1_description)/robot/dobot_m1_in_world.urdf.xacro"/>
@@ -54,9 +54,6 @@
     <group ns="$(arg robot_name)"> 
       <rosparam command="load" file="$(find dobot_m1_hw)/config/controllers.yaml"/>
 
-      <group if="$(arg use_robot_sim)">
-        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
-      </group>
       <group unless="$(arg use_robot_sim)">
         <include file="$(find dobot_m1_hw)/launch/dobot_m1_hw.launch">
           <arg name="enabled" value="true"/>
