@@ -1,0 +1,72 @@
+<launch>
+    <!-- LAUNCH INTERFACE -->
+    <arg name="gui" default="true" />
+    <arg name="robot_name" default="dobby"/>
+    <arg name="use_rviz" default="true"/>
+    <arg name="use_joint_state_publisher" default="true"/>
+    <arg name="use_robot_sim" default="true"/>
+    <arg name="load_moveit" default="true"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find dobot_m1_description)/robot/dobot_m1_in_world.urdf.xacro"/>
+
+
+    <group if="$(arg use_joint_state_publisher)">
+      <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+         <param name="use_gui" value="$(arg gui)"/>
+         <rosparam param="source_list">[/dobby/joint_states]</rosparam>
+      </node>
+    </group>
+
+    <param name="publish_frequency" value="100"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  />
+
+    <group if="$(arg use_rviz)">
+        <node name="my_rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find dobot_m1_description)/launch/rviz_config.rviz" output="screen"/>
+    </group>
+
+    
+    <!-- simulation and planning -->
+    <group if="$(arg use_robot_sim)">
+        <!-- Spawn the full robot into Gazebo  -->
+        <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)" respawn="false" output="screen"/>
+
+        <!-- load Gazebo simulation environment -->
+        <include file="$(find gazebo_ros)/launch/empty_world.launch">
+            <!-- when using the real/sim scenario in parallel, set "use_enabled_time" to false -->
+            <arg name="use_sim_time" value="true"/>
+            <arg name="gui" value="true"/>
+            <arg name="headless" value="true"/>
+            <arg name="debug" value="false"/>
+        </include>
+    </group>
+
+    <!-- load moveit configuration -->
+    <group if="$(arg load_moveit)">
+        <include file="$(find dobot_m1_moveit)/launch/move_group.launch">
+            <arg name="allow_trajectory_execution" value="true"/>  
+            <arg name="fake_execution" value="false"/>
+            <arg name="info" value="true"/>
+            <arg name="debug" value="false"/>
+        </include>
+    </group>
+
+    <!-- controllers are launched always, since either real or simulated hardware will be present -->
+    <group ns="$(arg robot_name)"> 
+      <rosparam command="load" file="$(find dobot_m1_hw)/config/controllers.yaml"/>
+
+      <group if="$(arg use_robot_sim)">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+      </group>
+      <group unless="$(arg use_robot_sim)">
+        <include file="$(find dobot_m1_hw)/launch/dobot_m1_hw.launch">
+          <arg name="enabled" value="true"/>
+          <!-- to implement as param + other dobot settings <param name="deviceIP" value="192.168.1.192"/> -->
+        </include>
+      </group>
+
+      <!-- load the controllers in current namespace -->
+      <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="joint_state_controller joint_trajectory_controller" />
+
+    </group>
+
+</launch>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="Eddie">
+       
+  <xacro:include filename="$(find dobot_m1_description)/model/dobot_m1.urdf.xacro" />
+    
+  <link name="world" />
+
+  <xacro:dobot_m1 name="dobot_m1" parent="world">
+    <origin xyz="0.0 0.0 0.0"/>
+  </xacro:dobot_m1>
+
+</robot>

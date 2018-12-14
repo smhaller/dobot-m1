@@ -1,0 +1,19 @@
+<package format="2">
+  <name>dobot_m1</name>
+  <version>0.0.1</version>
+  <description>
+    Dobot M1 ROS meta-package containing dobot_m1 pkgs.
+  </description>
+  <maintainer email="simon.haller@uibk.ac.at">Simon Haller</maintainer>
+  <license>GPLv2</license>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!--> PACKAGES </-->  
+  <exec_depend>dobot_m1_description</exec_depend>
+  <exec_depend>dobot_m1_hw</exec_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>

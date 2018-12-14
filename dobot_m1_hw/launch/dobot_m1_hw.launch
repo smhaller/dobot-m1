@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="enabled" default="false"/>
+
+  <!-- GDB functionality -->
+  <arg name="debug" default="false" />
+  <arg unless="$(arg debug)" name="launch_prefix" value="" />
+  <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+
+  <!-- Load configuration settings -->
+  <rosparam file="$(find dobot_m1_hw)/config/names.yaml" command="load"/>
+  <rosparam file="$(find dobot_m1_hw)/config/hardware_interfaces.yaml" command="load"/>
+  <rosparam file="$(find dobot_m1_hw)/config/controllers.yaml" command="load"/>
+
+  <!-- Load hardware interface -->
+  <group if="$(arg enabled)">
+   <node if="$(arg enabled)" name="dobot_m1_hw_interface" pkg="dobot_m1_hw" type="dobot_m1_hw_node" output="screen" launch-prefix="$(arg launch_prefix)"/>
+  </group>
+</launch>

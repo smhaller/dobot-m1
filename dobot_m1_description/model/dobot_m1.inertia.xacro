@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!-- NOTE: inertia values are approximated using meshlab and only using the significant elements -->
+    <!-- from http://answers.ros.org/question/11350/is-there-any-way-to-calculate-inertial-property-of-a-robot-to-simulate-it-in-gazebo/s
+    One general rule of thumb I use for checking my inertia tensors is: If total mass of the rigid body is m, and the dimension of the corresponding body is d, then check to see if ixx, iyy, izz are near m*(d/2)^2.
+
+    This is by no means correct, but a sanity check to make sure the moment of inertia are the right order of magnitudes, so the model behaves somewhat physically realistically.
+    -->
+
+    <!-- conversions -->
+    <!-- I couldn't make the simulation work with realistic values, so I tweaked the conversion values -->
+    <xacro:property name="mm_to_m" value="0.001"/>
+    <xacro:property name="mm2_to_m2" value="0.001"/>
+    <xacro:property name="gr_to_Kg" value="0.001"/>
+
+    <!-- not so negligible, otherwise simulation fails -->
+    <xacro:property name="negligible_mass" value="${200*gr_to_Kg}"/>
+    <xacro:property name="negligible_inertia">
+        <origin xyz="0 0 0"/>
+        <mass value="${negligible_mass}"/>
+        <inertia ixx="${negligible_mass * 100 * mm2_to_m2}" ixy="0.0" ixz="0.0" iyy="${negligible_mass * 100 * mm2_to_m2}" iyz="0.0" izz="${negligible_mass * 100 * mm2_to_m2}"/>
+    </xacro:property>
+
+    <!-- real inertia for the head are still required -->
+    
+</robot>

@@ -1,0 +1,26 @@
+# Publish all joint states ----------------------------------
+# Creates the /joint_states topic necessary in ROS
+joint_state_controller:
+  type:         joint_state_controller/JointStateController
+  publish_rate: 100
+
+# Joint Trajectory Controller -------------------------------
+# For detailed explanations of parameter see http://wiki.ros.org/joint_trajectory_controller
+joint_trajectory_controller:
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - dobot_m1_z_axis_joint
+    - dobot_m1_axis_2_joint
+    - dobot_m1_axis_3_joint
+    - dobot_m1_axis_4_joint
+
+
+# Group Position Controllers ---------------------------------------
+# Allows to send single ROS msg of Float64MultiArray to all joints
+joint_position_controller:
+  type: position_controllers/JointGroupPositionController
+  joints:
+    - dobot_m1_z_axis_joint
+    - dobot_m1_axis_2_joint
+    - dobot_m1_axis_3_joint
+    - dobot_m1_axis_4_joint

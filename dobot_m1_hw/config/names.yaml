@@ -1,0 +1,6 @@
+# Joint Names -------------------------------------------------------
+joints:
+    - dobot_m1_z_axis_joint
+    - dobot_m1_axis_2_joint
+    - dobot_m1_axis_3_joint
+    - dobot_m1_axis_4_joint

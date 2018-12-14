@@ -1,0 +1,10 @@
+controller_list:
+ - name: /dobby/joint_trajectory_controller
+   type: FollowJointTrajectory
+   action_ns: follow_joint_trajectory
+   default: true
+   joints:
+     - dobot_m1_z_axis_joint
+     - dobot_m1_axis_2_joint
+     - dobot_m1_axis_3_joint
+     - dobot_m1_axis_4_joint

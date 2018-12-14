@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<robot>
+  <material name="Dobot/White">
+    <color rgba="1 1 1 1.0"/>
+  </material>
+
+  <material name="Dobot/DarkGrey">
+    <color rgba="0.3 0.3 0.3 1.0"/>
+  </material>
+  
+  <material name="Dobot/LightGrey">
+    <color rgba="0.8 0.8 0.8 1.0"/>
+  </material>
+
+  <material name="Dobot/Black">
+    <color rgba="0 0 0 1.0"/>
+  </material>
+
+  <material name="Dobot/Grey">
+    <color rgba="0.7 0.7 0.7 1.0"/>
+  </material>
+
+  <material name="Dobot/Blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+</robot>

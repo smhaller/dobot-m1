@@ -1,0 +1,10 @@
+# Settings for ros_control control loop and hardware interface
+hardware_interface:
+  loop_hz: 300
+  cycle_time_error_threshold: 0.01
+  joints:
+    - dobot_m1_z_axis_joint
+    - dobot_m1_axis_2_joint
+    - dobot_m1_axis_3_joint
+    - dobot_m1_axis_4_joint
+  sim_control_mode: 0 # 0: position, 1: velocity

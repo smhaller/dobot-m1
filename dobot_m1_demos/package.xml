@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>dobot_m1_demos</name>
+  <version>0.0.1</version>
+  <description>
+    simple demos for Dobot M1
+  </description>
+  <maintainer email="simon.haller@uibk.ac.at">Simon Haller</maintainer>
+  <license>GPLv2</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>trajectory_msgs</exec_depend>
+</package>

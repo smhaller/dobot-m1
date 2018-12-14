@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: dobot_m1_description
+    relative_path: robot/dobot_m1_in_world.urdf.xacro
+    use_jade_xacro: true
+  SRDF:
+    relative_path: config/Eddie.srdf
+  CONFIG:
+    author_name: Simon Haller
+    author_email: simon.haller@uibk.ac.at
+    generated_timestamp: 1544801773

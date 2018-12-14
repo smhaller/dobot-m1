@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" >
+
+  <xacro:include filename="$(find dobot_m1_description)/model/materials.urdf"/>
+  <xacro:include filename="$(find dobot_m1_description)/model/dobot_m1.inertia.xacro"/>
+  <xacro:include filename="$(find dobot_m1_description)/model/dobot_m1.transmission.xacro"/>
+  <xacro:include filename="$(find dobot_m1_description)/model/dobot_m1.gazebo.xacro"/> 
+
+  <xacro:property name="M_PI" value="3.1415926535897931" />
+  <xacro:property name="velocity_scale_factor" value="1.0"/>
+  
+  <xacro:macro name="dobot_m1" params="parent name *origin">
+
+
+    <!-- The base fixed to its parent. -->
+    <joint name="${parent}_${name}_base_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}_base_link"/>
+    </joint>
+    
+    <link name="${name}_base_link">
+      <inertial>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dobot_m1_description/meshes/dobot_m1_base.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="Dobot/White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.045" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.12" length="0.09"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <!-- Stand fixed to the base -->
+    <joint name="${name}_stand_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${name}_base_link"/>
+      <child link="${name}_stand_link"/>
+    </joint>
+
+    <link name="${name}_stand_link">
+      <inertial>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dobot_m1_description/meshes/dobot_m1_stand.stl" scale="0.001 0.001 0.001" />
+        </geometry>
+        <material name="Dobot/White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.4" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.09" length="0.65"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <!-- Z-Axis -->
+    <joint name="${name}_z_axis_joint" type="prismatic">
+      <origin xyz="0 0.1 0.097" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+          <limit lower="0.02" upper="0.23" effort="20.0" velocity="0.02" />
+            <dynamics friction="1.0" damping="1.0"/>
+      <parent link="${name}_stand_link"/>
+      <child link="${name}_z_axis_link"/>
+    </joint>
+
+    <link name="${name}_z_axis_link">
+      <inertial>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dobot_m1_description/meshes/dobot_m1_z-axis.stl" scale="0.001 0.001 0.001" /> 
+        </geometry>
+        <material name="Dobot/White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- 2-Axis -->
+    <joint name="${name}_axis_2_joint" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-85 * M_PI / 180}" upper="${85 * M_PI / 180}"
+             effort="204" velocity="${velocity_scale_factor * 180 * M_PI / 180}" />
+      <safety_controller soft_lower_limit="${-84 * M_PI / 180}"
+                         soft_upper_limit="${84 * M_PI / 180}"
+                         k_position="30"
+                         k_velocity="30"/>
+      <dynamics friction="1.0" damping="1.0"/>
+      <parent link="${name}_z_axis_link"/>
+      <child link="${name}_axis_2_link"/>
+    </joint>
+
+    <link name="${name}_axis_2_link">
+      <inertial>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0.1 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dobot_m1_description/meshes/dobot_m1_axis-2.stl" scale="0.001 0.001 0.001" /> 
+        </geometry>
+        <material name="Dobot/White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- 3-Axis -->
+    <joint name="${name}_axis_3_joint" type="revolute">
+      <origin xyz="0 0.2 -0.05" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="${-135 * M_PI / 180}" upper="${135 * M_PI / 180}"
+             effort="204" velocity="${velocity_scale_factor * 180 * M_PI / 180}" />
+      <safety_controller soft_lower_limit="${-134 * M_PI / 180}"
+                         soft_upper_limit="${134 * M_PI / 180}"
+                         k_position="30"
+                         k_velocity="30"/>
+      <dynamics friction="1.0" damping="1.0"/>
+      <parent link="${name}_axis_2_link"/>
+      <child link="${name}_axis_3_link"/>
+    </joint>
+
+    <link name="${name}_axis_3_link">
+      <inertial>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0.1 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dobot_m1_description/meshes/dobot_m1_axis-3.stl" scale="0.001 0.001 0.001" /> 
+        </geometry>
+        <material name="Dobot/White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.1" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.2"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <!-- 4-Axis -->
+    <joint name="${name}_axis_4_joint" type="continuous">
+      <origin xyz="0 0.2 0" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <dynamics friction="1.0" damping="1.0"/>
+      <parent link="${name}_axis_3_link"/>
+      <child link="${name}_axis_4_link"/>
+    </joint>
+
+    <link name="${name}_axis_4_link">
+      <inertial>
+        <xacro:insert_block name="negligible_inertia"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://dobot_m1_description/meshes/dobot_m1_axis-4.stl" scale="0.001 0.001 0.001" /> 
+        </geometry>
+        <material name="Dobot/White"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0.09" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.07" length="0.18"/>
+        </geometry>
+      </collision>
+    </link>
+    <xacro:dobot_m1_transmission name="${name}"/>
+    <xacro:dobot_m1_gazebo name="${name}"/>
+  </xacro:macro>
+
+</robot>

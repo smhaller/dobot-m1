@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:macro name="dobot_m1_gazebo" params="name">
+
+		<gazebo reference="${name}_base_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo reference="${name}_head_1_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo reference="${name}_stand_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo reference="${name}_z_axis_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo reference="${name}_axis_2_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo reference="${name}_axis_3_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo reference="${name}_axis_4_link">
+			<!-- selfCollide>true</selfCollide -->
+			<gravity>true</gravity>
+			<mu1>500.0</mu1>
+			<mu2>500.0</mu2>
+			<kp>10000000.0</kp>
+			<kd>1.0</kd>
+      <material>Gazebo/Grey</material>
+		</gazebo>
+
+		<gazebo>
+			<plugin name="gazebo_ros_control" filename="libhwi_switch_gazebo_ros_control.so">
+				<robotNamespace>${name}</robotNamespace>
+				<filterJointsParam>joints</filterJointsParam>
+			</plugin>
+		</gazebo>
+
+	</xacro:macro>
+
+</robot>
