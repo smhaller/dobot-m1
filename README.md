@@ -8,7 +8,7 @@
 
 
 ## Starting the package:
-roslaunch dobot_m1_description dobot_m1.launch
+roslaunch dobot_m1_description dobot-m1.launch
 
 ## ToDo
 - Fix Simulation in Gazebo
