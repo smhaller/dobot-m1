@@ -8,8 +8,10 @@
 
 
 ## Starting the package:
+```
 export LC_NUMERIC="en_US.UTF-8"
 roslaunch dobot_m1_description dobot-m1.launch
+```
 
 ## ToDo
 - Fix Simulation in Gazebo
